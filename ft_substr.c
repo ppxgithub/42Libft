@@ -1,33 +1,39 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strdup.c                                        :+:      :+:    :+:   */
+/*   ft_substr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: praewpruettipongsapuk <praewpruettipong    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/14 23:18:38 by praewpruett       #+#    #+#             */
-/*   Updated: 2023/10/17 12:39:55 by praewpruett      ###   ########.fr       */
+/*   Created: 2023/10/15 10:34:08 by praewpruett       #+#    #+#             */
+/*   Updated: 2023/10/15 16:08:59 by praewpruett      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_strdup(const char *s1)
+char	*ft_substr(char const *s, unsigned int start, size_t len)
 {
-	int		i;
-	int		j;
-	char	*str;
+	size_t	count;
+	size_t	size;
+	char	*tab;
 
-	i = 0;
-	j = ft_strlen(s1);
-	str = (char *)malloc(sizeof(char) * (j + 1));
-	if (str == NULL)
+	if (!s)
 		return (NULL);
-	while (i < j)
+	if ((unsigned int)ft_strlen(s) < start)
+		return (ft_strdup(""));
+	size = ft_strlen(s + start);
+	if (size < len)
+		len = size;
+	tab = (char *)malloc((len + 1) * sizeof(char));
+	if (tab == NULL)
+		return (NULL);
+	count = 0;
+	while (count < len)
 	{
-		str[i] = s1[i];
-		i++;
+		tab[count] = s[start + count];
+		count++;
 	}
-	str[i] = '\0';
-	return (str);
+	tab[count] = '\0';
+	return (tab);
 }

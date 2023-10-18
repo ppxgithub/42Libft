@@ -1,39 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strnstr.c                                       :+:      :+:    :+:   */
+/*   ft_lstiter.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: praewpruettipongsapuk <praewpruettipong    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/17 11:00:29 by praewpruett       #+#    #+#             */
-/*   Updated: 2023/10/17 11:28:23 by praewpruett      ###   ########.fr       */
+/*   Created: 2023/10/15 19:05:55 by praewpruett       #+#    #+#             */
+/*   Updated: 2023/10/15 19:06:19 by praewpruett      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_strnstr(const char *haystack, const char *needle, size_t len)
+void	ft_lstiter(t_list *lst, void (*f)(void *))
 {
-	size_t	i;
-	size_t	j;
+	t_list	*temp;
 
-	i = 0;
-	j = 0;
-	if (needle[0] == '\0')
-		return ((char *)haystack);
-	while (haystack[i] != '\0' && i < len)
+	if (!lst)
+		return ;
+	temp = lst;
+	while (temp != NULL)
 	{
-		if (haystack[i] == needle[j])
-		{
-			while (haystack[i + j] == needle[j] && i + j < len)
-			{
-				if (needle[j + 1] == '\0')
-					return ((char *)haystack + i);
-				j++;
-			}
-			j = 0;
-		}
-		i++;
+		(*f)(temp->content);
+		temp = temp->next;
 	}
-	return (NULL);
 }

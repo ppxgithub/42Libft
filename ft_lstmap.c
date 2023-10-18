@@ -1,39 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strnstr.c                                       :+:      :+:    :+:   */
+/*   ft_lstmap.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: praewpruettipongsapuk <praewpruettipong    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/17 11:00:29 by praewpruett       #+#    #+#             */
-/*   Updated: 2023/10/17 11:28:23 by praewpruett      ###   ########.fr       */
+/*   Created: 2023/10/15 19:09:25 by praewpruett       #+#    #+#             */
+/*   Updated: 2023/10/17 12:08:44 by praewpruett      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_strnstr(const char *haystack, const char *needle, size_t len)
+t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *))
 {
-	size_t	i;
-	size_t	j;
+	t_list	*new;
+	t_list	*temp;
 
-	i = 0;
-	j = 0;
-	if (needle[0] == '\0')
-		return ((char *)haystack);
-	while (haystack[i] != '\0' && i < len)
+	if (lst == NULL || f == NULL || del == NULL)
+		return (NULL);
+	new = NULL;
+	while (lst != NULL)
 	{
-		if (haystack[i] == needle[j])
+		temp = (t_list *)malloc(sizeof(t_list));
+		if (temp == NULL)
 		{
-			while (haystack[i + j] == needle[j] && i + j < len)
-			{
-				if (needle[j + 1] == '\0')
-					return ((char *)haystack + i);
-				j++;
-			}
-			j = 0;
+			ft_lstclear(&new, del);
+			return (NULL);
 		}
-		i++;
+		temp -> content = f(lst->content);
+		temp -> next = NULL;
+		ft_lstadd_back(&new, temp);
+		lst = lst->next;
 	}
-	return (NULL);
+	return (new);
 }
